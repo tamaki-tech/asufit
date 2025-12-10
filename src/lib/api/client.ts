@@ -1,4 +1,4 @@
-import type { ApiRoute } from '$lib/api';
-import { hc } from 'hono/client';
+import type { ApiRoute } from "$lib/api";
+import { hc } from "hono/client";
 
-export const client = hc<ApiRoute>('/api');
+export const client = hc<ApiRoute>("/api");
