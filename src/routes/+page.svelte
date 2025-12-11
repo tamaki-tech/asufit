@@ -4,12 +4,5 @@
   let { data }: { data: PageData } = $props();
 </script>
 
-<div class="p-4">
-  <h1 class="text-3xl font-bold underline mb-4">Hello Sveltekit + hono.js</h1>
-  <p class="mb-2">API Result:</p>
-  <pre class="bg-gray-100 p-4 rounded">{JSON.stringify(
-      data.books,
-      null,
-      2
-    )}</pre>
-</div>
+<h2 class="text-3xl font-bold underline mb-4">API Result:</h2>
+<pre class="bg-gray-100 p-4 rounded">{JSON.stringify(data, null, 2)}</pre>

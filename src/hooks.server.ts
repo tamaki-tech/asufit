@@ -9,7 +9,8 @@ export const handle: Handle = async ({ event, resolve }) => {
       method: event.request.method,
       headers: event.request.headers,
       body: event.request.body,
-    });
+      duplex: "half",
+    } as RequestInit);
 
     return await app.fetch(request);
   }

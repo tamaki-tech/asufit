@@ -9,4 +9,7 @@
   <link rel="icon" href={favicon} />
 </svelte:head>
 
-{@render children()}
+<div class="p-4">
+  <h1 class="text-3xl font-bold underline mb-4">Hello Sveltekit + hono.js</h1>
+  {@render children()}
+</div>
