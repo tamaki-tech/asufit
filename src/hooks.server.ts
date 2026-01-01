@@ -5,7 +5,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   // /api/* のリクエストをHonoにルーティング
   if (event.url.pathname.startsWith("/api")) {
     const path = event.url.pathname.replace(/^\/api/, "");
-    const request = new Request(event.url.origin + path, {
+    const request = new Request(event.url.origin + path + event.url.search, {
       method: event.request.method,
       headers: event.request.headers,
       body: event.request.body,

@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
+import { authRoute } from "./routes/auth";
 
 // sample routes
 const bookRoute = new Hono()
@@ -26,6 +27,8 @@ const bookRoute = new Hono()
   );
 
 // main app
-export const app = new Hono().route("/book", bookRoute);
+export const app = new Hono()
+  .route("/book", bookRoute)
+  .route("/auth", authRoute);
 
 export type ApiRoute = typeof app;
