@@ -1,6 +1,5 @@
 <script lang="ts">
   import { loginSchema, type LoginFormData } from "$lib/schemas/auth";
-  import { authStore } from "$lib/stores/auth.svelte";
   import { ZodError } from "zod";
   import AuthTemplate from "$lib/components/templates/AuthTemplate.svelte";
   import SocialLoginSection from "$lib/components/organisms/SocialLoginSection.svelte";
@@ -36,9 +35,15 @@
    * Googleログインボタンのクリックハンドラー
    *
    * Auth0のGoogleログインへリダイレクト
+   * fetchではCORS制約によりリダイレクトを正しく処理できないため、
+   * window.location.hrefで直接遷移する
+   *
+   * buildApiUrl関数を使用することで、APIが別podにホストされている場合でも
+   * 環境変数（PUBLIC_API_BASE_URL）に基づいて正しいURLを構築
    */
   const handleGoogleLogin = () => {
-    authStore.login("/");
+    const returnTo = "/";
+    window.location.href = `/api/auth/login?returnTo=${encodeURIComponent(returnTo)}`;
   };
 
   /**

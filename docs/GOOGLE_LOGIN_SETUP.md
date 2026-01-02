@@ -16,16 +16,15 @@ Auth0とHonoを使用してGoogleログイン機能を実装しています。�
 
 1. **フロントエンド** (`src/routes/login/+page.svelte`)
    - Googleログインボタン
-   - 認証ストアとの連携
+   - Auth0ログインページへの直接リダイレクト
 
-2. **認証ストア** (`src/lib/stores/auth.svelte.ts`)
-   - ユーザー情報の管理
-   - ログイン/ログアウト処理
-
-3. **バックエンドAPI** (`src/lib/api/routes/auth.ts`)
+2. **バックエンドAPI** (`src/lib/api/routes/auth.ts`)
    - Auth0統合
    - ログインエンドポイント
    - ユーザー情報取得エンドポイント
+
+3. **型安全なAPIクライアント** (`src/lib/api/client.ts`)
+   - Hono RPCクライアントによるエンドツーエンドの型安全性
 
 ## セットアップ手順
 
@@ -94,20 +93,46 @@ npm install
 ### ログアウト
 
 ```typescript
-import { authStore } from "$lib/stores/auth.svelte";
-
 // ログアウト処理
-authStore.logout("/");
+const handleLogout = () => {
+  const returnTo = "/login";
+  window.location.href = `/api/auth/logout?returnTo=${encodeURIComponent(returnTo)}`;
+};
 ```
 
 ### ユーザー情報の取得
 
 ```typescript
-import { authStore } from "$lib/stores/auth.svelte";
+import { client } from "$lib/api/client";
 
-// コンポーネント内で使用
-const user = authStore.user;
-const isAuthenticated = authStore.isAuthenticated;
+// +page.ts または +layout.ts でデータをロード
+export const load = async ({ fetch }) => {
+  const response = await client.auth.me.$get({}, { fetch });
+
+  if (response.ok) {
+    const data = await response.json();
+    return { user: data.user };
+  }
+
+  return { user: null };
+};
+```
+
+または、コンポーネント内で直接取得:
+
+```typescript
+import { client } from "$lib/api/client";
+import { onMount } from "svelte";
+
+let user = $state(null);
+
+onMount(async () => {
+  const response = await client.auth.me.$get();
+  if (response.ok) {
+    const data = await response.json();
+    user = data.user;
+  }
+});
 ```
 
 ## APIエンドポイント
