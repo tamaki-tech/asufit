@@ -17,5 +17,9 @@
   "compatibility_flags": ["nodejs_compat"],
   "observability": {
     "enabled": true
+  },
+  "vars": {
+    "AUTH0_DOMAIN": "dev-b3077jmybgz0c1d7.us.auth0.com",
+    "AUTH0_CLIENT_ID": "8ljSxsL2OkvcGIKfnrnEpRFuEUq3MQAJ"
   }
 }
