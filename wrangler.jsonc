@@ -9,6 +9,10 @@
   "build": {
     "command": "npm run build"
   },
+  "assets": {
+    "directory": ".svelte-kit/cloudflare",
+    "binding": "ASSETS"
+  },
   "compatibility_date": "2026-01-01",
   "compatibility_flags": ["nodejs_compat"],
   "observability": {
