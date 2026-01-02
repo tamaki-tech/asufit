@@ -5,6 +5,13 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "asufit",
+  "main": "./.cloudflare/worker.js",
+  "site": {
+    "bucket": "./.cloudflare/public"
+  },
+  "build": {
+    "command": "npm run build"
+  },
   "compatibility_date": "2026-01-01",
   "compatibility_flags": ["nodejs_compat"],
   "observability": {
