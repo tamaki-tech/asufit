@@ -1,20 +1,22 @@
 <script lang="ts">
-import type { ExerciseType } from "$lib/types/exercise";
+  import type { ExerciseType } from "$lib/types/exercise";
 
-/**
- * おすすめメニューカードコンポーネントのprops
- */
-interface RecommendedMenuCardProps {
-	/**
-	 * おすすめメニューのリスト
-	 */
-	recommendedExercises: ExerciseType[];
-}
+  /**
+   * おすすめメニューカードコンポーネントのprops
+   */
+  interface RecommendedMenuCardProps {
+    /**
+     * おすすめメニューのリスト
+     */
+    recommendedExercises: ExerciseType[];
+  }
 
-const { recommendedExercises }: RecommendedMenuCardProps = $props();
+  const { recommendedExercises }: RecommendedMenuCardProps = $props();
 </script>
 
-<div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg shadow-md p-6">
+<div
+  class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg shadow-md p-6"
+>
   <h3 class="text-xl font-bold text-gray-900 mb-4">今日のおすすめメニュー</h3>
   <ul class="space-y-2">
     {#each recommendedExercises as exercise}

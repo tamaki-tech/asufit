@@ -1,4 +1,8 @@
-import type { ExerciseType, TrainingSession } from "$lib/types/exercise";
+import type {
+	ExerciseType,
+	RecommendedMenuItem,
+	TrainingSession,
+} from "$lib/types/exercise";
 
 /**
  * トレーニング種目のマスターデータ
@@ -55,23 +59,51 @@ export const EXERCISE_TYPES: ExerciseType[] = [
 ];
 
 /**
- * モチベーションメッセージのリスト
+ * おすすめメニューの理由リスト
  */
-export const MOTIVATION_MESSAGES = [
-	"今日も頑張りましょう！継続は力なり！",
-	"素晴らしい1日の始まりです。トレーニングで体を目覚めさせましょう！",
-	"あなたならできる！今日のメニューをこなしましょう！",
-	"昨日の自分を超えていきましょう！",
-	"小さな一歩が大きな変化を生み出します。さあ、始めましょう！",
+export const RECOMMENDATION_REASONS = [
+	"先週のトレーニング実績と体重・体脂肪率の変化から、バランスの良い全身トレーニングを提案します。特に上半身と下半身のバランスを重視したメニュー構成になっています。",
+	"最近の運動頻度と強度を分析した結果、持久力向上に重点を置いたメニューをおすすめします。有酸素運動と筋力トレーニングを組み合わせることで、効率的な体脂肪燃焼が期待できます。",
+	"前回のトレーニングから十分な回復期間が経過しています。今日は筋力アップに最適なタイミングです。基礎的な種目を中心に、適度な負荷で実施しましょう。",
+	"体重の推移から、引き続き有酸素運動を取り入れることをおすすめします。筋力トレーニングと組み合わせることで、基礎代謝の向上も期待できます。",
 ];
 
 /**
- * ランダムなモチベーションメッセージを取得
+ * ランダムなおすすめ理由を取得
  */
-export function getRandomMotivationMessage(): string {
-	return MOTIVATION_MESSAGES[
-		Math.floor(Math.random() * MOTIVATION_MESSAGES.length)
+export function getRandomRecommendationReason(): string {
+	return RECOMMENDATION_REASONS[
+		Math.floor(Math.random() * RECOMMENDATION_REASONS.length)
 	];
+}
+
+/**
+ * モックのおすすめメニューを生成
+ */
+export function generateMockRecommendedMenu(): RecommendedMenuItem[] {
+	const recommendedExercises = EXERCISE_TYPES.filter((e) => e.isRecommended);
+
+	return recommendedExercises.map((exerciseType) => {
+		let detail;
+		if (exerciseType.category === "strength") {
+			detail = { category: "strength" as const, reps: 20 };
+		} else if (exerciseType.category === "weighted") {
+			detail = {
+				category: "weighted" as const,
+				reps: 10,
+				weight: 10,
+			};
+		} else {
+			detail = { category: "cardio" as const, duration: 20 };
+		}
+
+		return {
+			id: crypto.randomUUID(),
+			exerciseType,
+			detail,
+			isCompleted: false,
+		};
+	});
 }
 
 /**
@@ -83,6 +115,8 @@ export function createMockTrainingSession(date: Date): TrainingSession {
 		date,
 		isStarted: false,
 		records: [],
-		motivationMessage: getRandomMotivationMessage(),
+		isRecommendationGenerated: false,
+		recommendedMenu: [],
+		recommendationReason: undefined,
 	};
 }

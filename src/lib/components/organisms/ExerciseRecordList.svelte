@@ -1,18 +1,18 @@
 <script lang="ts">
-import ExerciseRecordCard from "$lib/components/molecules/ExerciseRecordCard.svelte";
-import type { ExerciseRecord } from "$lib/types/exercise";
+  import ExerciseRecordCard from "$lib/components/molecules/ExerciseRecordCard.svelte";
+  import type { ExerciseRecord } from "$lib/types/exercise";
 
-/**
- * トレーニング記録リストコンポーネントのprops
- */
-interface ExerciseRecordListProps {
-	/**
-	 * トレーニング記録のリスト
-	 */
-	records: ExerciseRecord[];
-}
+  /**
+   * トレーニング記録リストコンポーネントのprops
+   */
+  interface ExerciseRecordListProps {
+    /**
+     * トレーニング記録のリスト
+     */
+    records: ExerciseRecord[];
+  }
 
-const { records }: ExerciseRecordListProps = $props();
+  const { records }: ExerciseRecordListProps = $props();
 </script>
 
 <div class="space-y-4">

@@ -26,6 +26,28 @@ export interface ExerciseType {
 }
 
 /**
+ * おすすめメニューアイテム（回数・重量などの詳細を含む）
+ */
+export interface RecommendedMenuItem {
+	/**
+	 * メニューアイテムのID
+	 */
+	id: string;
+	/**
+	 * トレーニング種目
+	 */
+	exerciseType: ExerciseType;
+	/**
+	 * 推奨される回数・重量などの詳細
+	 */
+	detail: ExerciseRecordDetail;
+	/**
+	 * 完了済みかどうか
+	 */
+	isCompleted: boolean;
+}
+
+/**
  * 筋トレ記録（回数のみ）
  */
 export interface StrengthRecord {
@@ -117,7 +139,15 @@ export interface TrainingSession {
 	 */
 	records: ExerciseRecord[];
 	/**
-	 * 今日のメニューに関する一言コメント
+	 * おすすめメニューが生成済みかどうか
 	 */
-	motivationMessage?: string;
+	isRecommendationGenerated: boolean;
+	/**
+	 * おすすめメニューのリスト
+	 */
+	recommendedMenu: RecommendedMenuItem[];
+	/**
+	 * おすすめメニューの理由
+	 */
+	recommendationReason?: string;
 }
