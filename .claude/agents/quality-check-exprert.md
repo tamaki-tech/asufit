@@ -19,9 +19,9 @@ color: green
 - 依存関係の正しさを確認する
 - エッジケースでの動作を検証する
 - リソースリークやメモリ管理の問題を検出する
-- TypeScript型定義の整合性を確認する
-- SvelteKit特有の制約（SSR/CSR、fetch、load関数）の適切性を検証する
-- Hono APIルートの型安全性とバリデーション実装を確認する
+- TypeScript 型定義の整合性を確認する
+- SvelteKit 特有の制約（SSR/CSR、fetch、load 関数）の適切性を検証する
+- Hono API ルートの型安全性とバリデーション実装を確認する
 
 ### 2. テストの適切性評価
 
@@ -30,7 +30,7 @@ color: green
 - テストの独立性と再現性を検証する
 - モックやスタブの適切な使用を確認する
 - アサーションの妥当性を評価する
-- SvelteKit環境での`fetch`モックやSSR対応を確認する
+- SvelteKit 環境での`fetch`モックや SSR 対応を確認する
 
 ### 3. 要件充足性の確認
 
@@ -38,17 +38,17 @@ color: green
 - 暗黙的な要件や非機能要件の考慮を確認する
 - ユーザビリティとエラーハンドリングの適切性を評価する
 - パフォーマンス要件への対応を確認する
-- SvelteKit+Honoのアーキテクチャパターン遵守を確認する
+- SvelteKit+Hono のアーキテクチャパターン遵守を確認する
 
 ### 4. セキュリティ脆弱性の検出
 
 - SQL インジェクション、XSS、CSRF などの一般的な脆弱性を検出する
-- 認証・認可の実装の適切性を確認する（Auth0統合含む）
+- 認証・認可の実装の適切性を確認する（Auth0 統合含む）
 - 機密情報の適切な管理を検証する
-- Zodバリデーションによる入力検証の実装を確認する
+- Zod バリデーションによる入力検証の実装を確認する
 - 依存関係の既知の脆弱性を特定する
-- SvelteKitのCSRF保護機構の適切な利用を確認する
-- Hono APIエンドポイントのバリデーション層の存在を確認する
+- SvelteKit の CSRF 保護機構の適切な利用を確認する
+- Hono API エンドポイントのバリデーション層の存在を確認する
 
 ### 5. 静的コード解析
 
@@ -56,24 +56,24 @@ warning および error が 0 件になるまで修正を繰り返す。
 
 #### TypeScript + SvelteKit + Hono
 
-- `npm run check` (SvelteKit型チェック + svelte-check)
-- `npx tsc --noEmit` (TypeScript型チェック)
+- `npm run check` (SvelteKit 型チェック + svelte-check)
+- `npx tsc --noEmit` (TypeScript 型チェック)
 - `npm run build` (本番ビルドでの検証)
 - Linter/Formatter（プロジェクトに応じて実行）:
-  - Biomeが導入されている場合: `npx @biomejs/biome check --write .`
-  - ESLint+Prettierが導入されている場合: `npx eslint . --fix && npx prettier --write .`
+  - Biome が導入されている場合: `npx @biomejs/biome check --write .`
+  - ESLint+Prettier が導入されている場合: `npx eslint . --fix && npx prettier --write .`
 - `npm audit --audit-level=moderate` (依存脆弱性監査)
-- `npx osv-scanner --lockfile=package-lock.json` (OSVデータベース脆弱性スキャン、導入されている場合)
+- `npx osv-scanner --lockfile=package-lock.json` (OSV データベース脆弱性スキャン、導入されている場合)
 
 ### 6. ユニットテストの実行
 
-- Vitestが設定されている場合: `npm run test -- --run --coverage` による実行
+- Vitest が設定されている場合: `npm run test -- --run --coverage` による実行
 - fail, skip, warning, error しているものを確認する
 - 網羅的にテストされているか確認する
 - 本質的に意味のないテストであれば削除する
 - もし重要なテストであれば、修正して passed になるように改善する
-- SvelteKitコンポーネントテスト（`@testing-library/svelte`利用時）の適切性を確認
-- Hono APIルートのテスト（`hono/testing`利用時）の網羅性を確認
+- SvelteKit コンポーネントテスト（`@testing-library/svelte`利用時）の適切性を確認
+- Hono API ルートのテスト（`hono/testing`利用時）の網羅性を確認
 
 ## 検証プロセス
 
@@ -81,15 +81,15 @@ warning および error が 0 件になるまで修正を繰り返す。
 
 - タスクの内容を理解して、要件に沿った実装になっているか確認する
 - 影響範囲を確認し、既存のコードの整合性を保ったまま実装されているか確認する
-- SvelteKit+Honoアーキテクチャパターン（`/api/*` → Hono、その他 → SvelteKit）に沿っているか確認する
+- SvelteKit+Hono アーキテクチャパターン（`/api/*` → Hono、その他 → SvelteKit）に沿っているか確認する
 
 2. **詳細検査**: 各検証項目について体系的にチェックする
 
 - ユニットテストの実施、網羅性の確認、カバレッジの確保、エッジケースのカバーを行う
 - フォーマットチェック、Linter、型チェック、セキュリティ・依存脆弱性診断を実施する
 - 潜在的な問題の発見、セキュリティリスク、コード規約、コメント・ドキュメント規約の遵守を確認する
-- Hono RPCクライアント（`hono/client`）の型安全性活用を確認する
-- SvelteKit load関数での`fetch`パラメータ渡しを確認する
+- Hono RPC クライアント（`hono/client`）の型安全性活用を確認する
+- SvelteKit load 関数での`fetch`パラメータ渡しを確認する
 
 3. **問題の優先順位付け**: 発見した問題を重要度で分類する
 
@@ -128,6 +128,11 @@ warning および error が 0 件になるまで修正を繰り返す。
 1. [優先度順のアクションリスト]
 ```
 
+## build エラーのチェック
+
+- npm run build を実行した際にエラーが発生しないことを確認する
+- エラーが発生する場合は critical issue として修正な必要な箇所として扱う
+
 ## コーディング規約
 
 - 関数は集中して小さく保つ
@@ -136,12 +141,12 @@ warning および error が 0 件になるまで修正を繰り返す。
 - コードを変更した際に後方互換性の名目や、削除予定として使用しなくなったコードを残さない。後方互換の残骸を検出したら削除する
 - 未使用の変数・引数・関数・クラス・コメントアウトコード・到達不可能分岐を残さない
 - 使用するライブラリのライセンスは可能な限り非コピーレフト（Apache, MIT, BSD, AFL, ISC, PFS）のものとする。それ以外のものを追加するときは確認を取ること
-- 変数・関数は camelCase、型・インターフェース・クラスは PascalCase（TypeScript標準）
+- 変数・関数は camelCase、型・インターフェース・クラスは PascalCase（TypeScript 標準）
 - Zod スキーマは PascalCase で定義（例: `BookSchema`）
 - API（JSON over HTTP）では camelCase を使用
-- Honoルートは`@hono/zod-validator`で必ずバリデーションを実装
-- SvelteKit load関数では必ず`{ fetch }`を Hono クライアントに渡す
-- Svelte 5 runesシンタックス（`$state`, `$props`, `$derived`）を使用
+- Hono ルートは`@hono/zod-validator`で必ずバリデーションを実装
+- SvelteKit load 関数では必ず`{ fetch }`を Hono クライアントに渡す
+- Svelte 5 runes シンタックス（`$state`, `$props`, `$derived`）を使用
 
 ## git 管理
 

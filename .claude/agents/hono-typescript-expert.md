@@ -88,17 +88,17 @@ src/
 
 ```typescript
 // src/lib/api/routes/book.ts
-import { Hono } from 'hono';
-import { zValidator } from '@hono/zod-validator';
-import { bookSchema } from '../schemas/book';
+import { Hono } from "hono";
+import { zValidator } from "@hono/zod-validator";
+import { bookSchema } from "../schemas/book";
 
 const book = new Hono();
 
-book.get('/', (c) => {
+book.get("/", (c) => {
   // ルートロジック
 });
 
-book.post('/', zValidator('json', bookSchema), (c) => {
+book.post("/", zValidator("json", bookSchema), (c) => {
   // バリデーション済みデータを使用
 });
 
@@ -107,13 +107,11 @@ export default book;
 
 ```typescript
 // src/lib/api/index.ts
-import { Hono } from 'hono';
-import book from './routes/book';
-import user from './routes/user';
+import { Hono } from "hono";
+import book from "./routes/book";
+import user from "./routes/user";
 
-const app = new Hono()
-  .route('/book', book)
-  .route('/user', user);
+const app = new Hono().route("/book", book).route("/user", user);
 
 export default app;
 export type ApiRoute = typeof app;
@@ -125,12 +123,12 @@ export type ApiRoute = typeof app;
 
 ```typescript
 // src/lib/api/schemas/book.ts
-import { z } from 'zod';
+import { z } from "zod";
 
 export const bookSchema = z.object({
   title: z.string().min(1).max(100),
   author: z.string().min(1),
-  publishedYear: z.number().int().min(1000).max(9999)
+  publishedYear: z.number().int().min(1000).max(9999),
 });
 
 export type Book = z.infer<typeof bookSchema>;
@@ -142,19 +140,19 @@ Hono の RPC クライアントを使用して完全な型安全性を実現：
 
 ```typescript
 // src/lib/api/client.ts
-import { hc } from 'hono/client';
-import type { ApiRoute } from './index';
+import { hc } from "hono/client";
+import type { ApiRoute } from "./index";
 
-export const client = hc<ApiRoute>('/api');
+export const client = hc<ApiRoute>("/api");
 ```
 
 ```typescript
 // src/routes/+page.ts
-import { client } from '$lib/api/client';
+import { client } from "$lib/api/client";
 
 export const load = async ({ fetch }) => {
   const res = await client.book.$get({}, { fetch });
-  if (!res.ok) throw new Error('Failed to fetch');
+  if (!res.ok) throw new Error("Failed to fetch");
   const data = await res.json();
   return { books: data };
 };
@@ -166,12 +164,12 @@ export const load = async ({ fetch }) => {
 
 ```typescript
 // src/lib/api/middlewares/auth.ts
-import { createMiddleware } from 'hono/factory';
+import { createMiddleware } from "hono/factory";
 
 export const authMiddleware = createMiddleware(async (c, next) => {
-  const token = c.req.header('Authorization');
+  const token = c.req.header("Authorization");
   if (!token) {
-    return c.json({ error: 'Unauthorized' }, 401);
+    return c.json({ error: "Unauthorized" }, 401);
   }
   // トークン検証ロジック
   await next();
@@ -185,9 +183,12 @@ export const authMiddleware = createMiddleware(async (c, next) => {
 ```typescript
 app.onError((err, c) => {
   console.error(err);
-  return c.json({
-    error: err.message || 'Internal Server Error'
-  }, 500);
+  return c.json(
+    {
+      error: err.message || "Internal Server Error",
+    },
+    500
+  );
 });
 ```
 
