@@ -1,15 +1,15 @@
 <script lang="ts">
-  /**
-   * Googleアイコンコンポーネントのprops
-   */
-  interface GoogleIconProps {
-    /**
-     * アイコンのサイズ（CSSのw-/h-クラス）
-     */
-    size?: string;
-  }
+/**
+ * Googleアイコンコンポーネントのprops
+ */
+interface GoogleIconProps {
+	/**
+	 * アイコンのサイズ（CSSのw-/h-クラス）
+	 */
+	size?: string;
+}
 
-  let { size = "w-5 h-5" }: GoogleIconProps = $props();
+const { size = "w-5 h-5" }: GoogleIconProps = $props();
 </script>
 
 <svg class={size} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

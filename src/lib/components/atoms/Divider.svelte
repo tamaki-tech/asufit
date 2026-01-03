@@ -1,15 +1,15 @@
 <script lang="ts">
-  /**
-   * 区切り線コンポーネントのprops
-   */
-  interface DividerProps {
-    /**
-     * 中央に表示するテキスト
-     */
-    text?: string;
-  }
+/**
+ * 区切り線コンポーネントのprops
+ */
+interface DividerProps {
+	/**
+	 * 中央に表示するテキスト
+	 */
+	text?: string;
+}
 
-  let { text }: DividerProps = $props();
+const { text }: DividerProps = $props();
 </script>
 
 <div class="relative my-6">

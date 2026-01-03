@@ -1,39 +1,39 @@
 <script lang="ts">
-  import Alert from "$lib/components/atoms/Alert.svelte";
+import Alert from "$lib/components/atoms/Alert.svelte";
 
-  /**
-   * 認証テンプレートのprops
-   */
-  interface AuthTemplateProps {
-    /**
-     * ページタイトル
-     */
-    title: string;
-    /**
-     * エラーメッセージ
-     */
-    errorMessage?: string;
-    /**
-     * 成功メッセージ
-     */
-    successMessage?: string;
-    /**
-     * メインコンテンツ
-     */
-    children: import("svelte").Snippet;
-    /**
-     * フッターコンテンツ（オプション）
-     */
-    footer?: import("svelte").Snippet;
-  }
+/**
+ * 認証テンプレートのprops
+ */
+interface AuthTemplateProps {
+	/**
+	 * ページタイトル
+	 */
+	title: string;
+	/**
+	 * エラーメッセージ
+	 */
+	errorMessage?: string;
+	/**
+	 * 成功メッセージ
+	 */
+	successMessage?: string;
+	/**
+	 * メインコンテンツ
+	 */
+	children: import("svelte").Snippet;
+	/**
+	 * フッターコンテンツ（オプション）
+	 */
+	footer?: import("svelte").Snippet;
+}
 
-  let {
-    title,
-    errorMessage,
-    successMessage,
-    children,
-    footer,
-  }: AuthTemplateProps = $props();
+const {
+	title,
+	errorMessage,
+	successMessage,
+	children,
+	footer,
+}: AuthTemplateProps = $props();
 </script>
 
 <div class="max-w-md mx-auto mt-8">

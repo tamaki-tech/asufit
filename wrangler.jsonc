@@ -3,24 +3,24 @@
  * https://developers.cloudflare.com/workers/wrangler/configuration/
  */
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "asufit",
-  "main": "./.cloudflare/worker.js",
-  "build": {
-    "command": "npm run build"
-  },
-  "assets": {
-    "directory": ".svelte-kit/cloudflare",
-    "binding": "ASSETS"
-  },
-  "compatibility_date": "2026-01-01",
-  "compatibility_flags": ["nodejs_compat"],
-  "observability": {
-    "enabled": true
-  },
-  "vars": {
-    "AUTH0_DOMAIN": "dev-b3077jmybgz0c1d7.us.auth0.com",
-    "AUTH0_CLIENT_ID": "8ljSxsL2OkvcGIKfnrnEpRFuEUq3MQAJ",
-    "BASE_URL": "https://asufit.naokillme12212000.workers.dev"
-  }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "asufit",
+	"main": "./.cloudflare/worker.js",
+	"build": {
+		"command": "npm run build"
+	},
+	"assets": {
+		"directory": ".svelte-kit/cloudflare",
+		"binding": "ASSETS"
+	},
+	"compatibility_date": "2026-01-01",
+	"compatibility_flags": ["nodejs_compat"],
+	"observability": {
+		"enabled": true
+	},
+	"vars": {
+		"AUTH0_DOMAIN": "dev-b3077jmybgz0c1d7.us.auth0.com",
+		"AUTH0_CLIENT_ID": "8ljSxsL2OkvcGIKfnrnEpRFuEUq3MQAJ",
+		"BASE_URL": "https://asufit.naokillme12212000.workers.dev"
+	}
 }

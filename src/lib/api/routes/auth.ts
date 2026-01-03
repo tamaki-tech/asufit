@@ -1,12 +1,12 @@
-import { Hono } from "hono";
 import {
-  auth,
-  requiresAuth,
-  login,
-  callback,
-  logout,
-  type OIDCEnv,
+	auth,
+	callback,
+	login,
+	logout,
+	type OIDCEnv,
+	requiresAuth,
 } from "@auth0/auth0-hono";
+import { Hono } from "hono";
 
 /**
  * 認証ルート
@@ -24,45 +24,45 @@ import {
  * - AUTH0_SESSION_ENCRYPTION_KEY: セッション暗号化キー
  */
 export const authRoute = new Hono<OIDCEnv>()
-  .use(
-    "/*",
-    auth({
-      domain: process.env.AUTH0_DOMAIN!,
-      clientID: process.env.AUTH0_CLIENT_ID!,
-      clientSecret: process.env.AUTH0_CLIENT_SECRET,
-      baseURL: process.env.BASE_URL!,
-      routes: {
-        login: "/api/auth/login",
-        logout: "/api/auth/logout",
-        callback: "/api/auth/callback",
-      },
-      session: {
-        secret: process.env.AUTH0_SESSION_ENCRYPTION_KEY!,
-      },
-      authRequired: false,
-      authorizationParams: {
-        connection: "google-oauth2",
-        scope: "openid profile email",
-      },
-    })
-  )
-  .get("/login", login())
-  .get("/callback", callback({ redirectAfterLogin: "/" }))
-  .get("/logout", logout({ redirectAfterLogout: "/login" }))
-  .get("/me", requiresAuth(), async (c) => {
-    const session = await c.var.auth0Client?.getSession(c);
-    const user = session?.user;
+	.use(
+		"/*",
+		auth({
+			domain: process.env.AUTH0_DOMAIN!,
+			clientID: process.env.AUTH0_CLIENT_ID!,
+			clientSecret: process.env.AUTH0_CLIENT_SECRET,
+			baseURL: process.env.BASE_URL!,
+			routes: {
+				login: "/api/auth/login",
+				logout: "/api/auth/logout",
+				callback: "/api/auth/callback",
+			},
+			session: {
+				secret: process.env.AUTH0_SESSION_ENCRYPTION_KEY!,
+			},
+			authRequired: false,
+			authorizationParams: {
+				connection: "google-oauth2",
+				scope: "openid profile email",
+			},
+		}),
+	)
+	.get("/login", login())
+	.get("/callback", callback({ redirectAfterLogin: "/" }))
+	.get("/logout", logout({ redirectAfterLogout: "/login" }))
+	.get("/me", requiresAuth(), async (c) => {
+		const session = await c.var.auth0Client?.getSession(c);
+		const user = session?.user;
 
-    if (!user) {
-      return c.json({ error: "Unauthorized" }, 401);
-    }
+		if (!user) {
+			return c.json({ error: "Unauthorized" }, 401);
+		}
 
-    return c.json({
-      user: {
-        id: user.sub || "",
-        email: user.email || "",
-        name: user.name || "",
-        picture: user.picture,
-      },
-    });
-  });
+		return c.json({
+			user: {
+				id: user.sub || "",
+				email: user.email || "",
+				name: user.name || "",
+				picture: user.picture,
+			},
+		});
+	});

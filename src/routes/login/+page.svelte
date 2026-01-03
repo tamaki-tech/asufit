@@ -1,123 +1,123 @@
 <script lang="ts">
-  import { loginSchema, type LoginFormData } from "$lib/schemas/auth";
-  import { ZodError } from "zod";
-  import AuthTemplate from "$lib/components/templates/AuthTemplate.svelte";
-  import SocialLoginSection from "$lib/components/organisms/SocialLoginSection.svelte";
-  import LoginForm from "$lib/components/organisms/LoginForm.svelte";
+import { ZodError } from "zod";
+import LoginForm from "$lib/components/organisms/LoginForm.svelte";
+import SocialLoginSection from "$lib/components/organisms/SocialLoginSection.svelte";
+import AuthTemplate from "$lib/components/templates/AuthTemplate.svelte";
+import { type LoginFormData, loginSchema } from "$lib/schemas/auth";
 
-  /**
-   * フォームフィールドの状態
-   */
-  let email = $state("");
-  let password = $state("");
+/**
+ * フォームフィールドの状態
+ */
+let email = $state("");
+let password = $state("");
 
-  /**
-   * バリデーションエラーメッセージ
-   */
-  let errors = $state<Partial<Record<keyof LoginFormData, string>>>({});
+/**
+ * バリデーションエラーメッセージ
+ */
+let errors = $state<Partial<Record<keyof LoginFormData, string>>>({});
 
-  /**
-   * ローディング状態
-   */
-  let isLoading = $state(false);
+/**
+ * ローディング状態
+ */
+let isLoading = $state(false);
 
-  /**
-   * フォーム送信全体のエラーメッセージ
-   */
-  let submitError = $state("");
+/**
+ * フォーム送信全体のエラーメッセージ
+ */
+let submitError = $state("");
 
-  /**
-   * フォーム送信成功メッセージ
-   */
-  let successMessage = $state("");
+/**
+ * フォーム送信成功メッセージ
+ */
+let successMessage = $state("");
 
-  /**
-   * Googleログインボタンのクリックハンドラー
-   *
-   * Auth0のGoogleログインへリダイレクト
-   * fetchではCORS制約によりリダイレクトを正しく処理できないため、
-   * window.location.hrefで直接遷移する
-   *
-   * buildApiUrl関数を使用することで、APIが別podにホストされている場合でも
-   * 環境変数（PUBLIC_API_BASE_URL）に基づいて正しいURLを構築
-   */
-  const handleGoogleLogin = () => {
-    const returnTo = "/";
-    window.location.href = `/api/auth/login?returnTo=${encodeURIComponent(returnTo)}`;
-  };
+/**
+ * Googleログインボタンのクリックハンドラー
+ *
+ * Auth0のGoogleログインへリダイレクト
+ * fetchではCORS制約によりリダイレクトを正しく処理できないため、
+ * window.location.hrefで直接遷移する
+ *
+ * buildApiUrl関数を使用することで、APIが別podにホストされている場合でも
+ * 環境変数（PUBLIC_API_BASE_URL）に基づいて正しいURLを構築
+ */
+const handleGoogleLogin = () => {
+	const returnTo = "/";
+	window.location.href = `/api/auth/login?returnTo=${encodeURIComponent(returnTo)}`;
+};
 
-  /**
-   * フォーム送信ハンドラー
-   *
-   * Zodスキーマでバリデーションを実行し、成功時はAPIリクエストをシミュレート
-   * 現在は仮実装として、console.logで値を出力
-   */
-  const handleSubmit = async (event: SubmitEvent) => {
-    event.preventDefault();
+/**
+ * フォーム送信ハンドラー
+ *
+ * Zodスキーマでバリデーションを実行し、成功時はAPIリクエストをシミュレート
+ * 現在は仮実装として、console.logで値を出力
+ */
+const handleSubmit = async (event: SubmitEvent) => {
+	event.preventDefault();
 
-    // エラーと成功メッセージをリセット
-    errors = {};
-    submitError = "";
-    successMessage = "";
+	// エラーと成功メッセージをリセット
+	errors = {};
+	submitError = "";
+	successMessage = "";
 
-    // フォームデータの構築
-    const formData: LoginFormData = {
-      email,
-      password,
-    };
+	// フォームデータの構築
+	const formData: LoginFormData = {
+		email,
+		password,
+	};
 
-    // クライアントサイドバリデーション
-    try {
-      loginSchema.parse(formData);
-    } catch (error) {
-      if (error instanceof ZodError) {
-        // Zodエラーをフィールドごとのエラーメッセージに変換
-        error.issues.forEach((issue) => {
-          const field = issue.path[0] as keyof LoginFormData;
-          errors[field] = issue.message;
-        });
-      }
-      return;
-    }
+	// クライアントサイドバリデーション
+	try {
+		loginSchema.parse(formData);
+	} catch (error) {
+		if (error instanceof ZodError) {
+			// Zodエラーをフィールドごとのエラーメッセージに変換
+			error.issues.forEach((issue) => {
+				const field = issue.path[0] as keyof LoginFormData;
+				errors[field] = issue.message;
+			});
+		}
+		return;
+	}
 
-    // ローディング開始
-    isLoading = true;
+	// ローディング開始
+	isLoading = true;
 
-    try {
-      // 仮実装: APIリクエストの代わりにconsole.logで出力
-      console.log("ログイン情報:", {
-        email: formData.email,
-        password: "********", // セキュリティのため、パスワードはマスク
-      });
+	try {
+		// 仮実装: APIリクエストの代わりにconsole.logで出力
+		console.log("ログイン情報:", {
+			email: formData.email,
+			password: "********", // セキュリティのため、パスワードはマスク
+		});
 
-      // APIリクエストのシミュレーション（1秒待機）
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+		// APIリクエストのシミュレーション（1秒待機）
+		await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // 成功メッセージの表示
-      successMessage = "ログインに成功しました！";
+		// 成功メッセージの表示
+		successMessage = "ログインに成功しました！";
 
-      // フォームをリセット
-      email = "";
-      password = "";
+		// フォームをリセット
+		email = "";
+		password = "";
 
-      // TODO: 実際のAPIエンドポイント実装時に以下のようなコードに置き換え
-      // const response = await client.auth.login.$post(
-      //   { json: formData },
-      //   { fetch }
-      // );
-      // const result = await response.json();
-      // if (response.ok) {
-      //   // ログイン成功時の処理（リダイレクトなど）
-      // } else {
-      //   submitError = result.error || "ログインに失敗しました";
-      // }
-    } catch (error) {
-      console.error("ログインエラー:", error);
-      submitError = "予期しないエラーが発生しました。もう一度お試しください。";
-    } finally {
-      isLoading = false;
-    }
-  };
+		// TODO: 実際のAPIエンドポイント実装時に以下のようなコードに置き換え
+		// const response = await client.auth.login.$post(
+		//   { json: formData },
+		//   { fetch }
+		// );
+		// const result = await response.json();
+		// if (response.ok) {
+		//   // ログイン成功時の処理（リダイレクトなど）
+		// } else {
+		//   submitError = result.error || "ログインに失敗しました";
+		// }
+	} catch (error) {
+		console.error("ログインエラー:", error);
+		submitError = "予期しないエラーが発生しました。もう一度お試しください。";
+	} finally {
+		isLoading = false;
+	}
+};
 </script>
 
 <AuthTemplate title="ログイン" errorMessage={submitError} {successMessage}>

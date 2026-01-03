@@ -1,18 +1,18 @@
 <script lang="ts">
-  import GoogleLoginButton from "$lib/components/molecules/GoogleLoginButton.svelte";
-  import Divider from "$lib/components/atoms/Divider.svelte";
+import Divider from "$lib/components/atoms/Divider.svelte";
+import GoogleLoginButton from "$lib/components/molecules/GoogleLoginButton.svelte";
 
-  /**
-   * ソーシャルログインセクションのprops
-   */
-  interface SocialLoginSectionProps {
-    /**
-     * Googleログインのクリックハンドラー
-     */
-    onGoogleLogin: () => void;
-  }
+/**
+ * ソーシャルログインセクションのprops
+ */
+interface SocialLoginSectionProps {
+	/**
+	 * Googleログインのクリックハンドラー
+	 */
+	onGoogleLogin: () => void;
+}
 
-  let { onGoogleLogin }: SocialLoginSectionProps = $props();
+const { onGoogleLogin }: SocialLoginSectionProps = $props();
 </script>
 
 <div>

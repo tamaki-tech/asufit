@@ -8,7 +8,7 @@
     /**
      * 入力フィールドのID
      */
-    id: string;
+    id?: string;
     /**
      * 入力フィールドのタイプ
      */
@@ -41,6 +41,18 @@
      * aria-describedby属性
      */
     ariaDescribedby?: string;
+    /**
+     * 必須入力かどうか
+     */
+    required?: boolean;
+    /**
+     * 数値入力のステップ値
+     */
+    step?: string;
+    /**
+     * 数値入力の最小値
+     */
+    min?: string;
   }
 
   let {
@@ -53,6 +65,9 @@
     autocomplete,
     ariaInvalid,
     ariaDescribedby,
+    required = false,
+    step,
+    min,
   }: InputProps = $props();
 
   /**
@@ -71,6 +86,9 @@
   {placeholder}
   {autocomplete}
   {disabled}
+  {required}
+  {step}
+  {min}
   aria-invalid={ariaInvalid}
   aria-describedby={ariaDescribedby}
 />

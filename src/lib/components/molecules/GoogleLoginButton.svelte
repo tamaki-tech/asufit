@@ -1,18 +1,18 @@
 <script lang="ts">
-  import Button from "$lib/components/atoms/Button.svelte";
-  import GoogleIcon from "$lib/components/atoms/GoogleIcon.svelte";
+import Button from "$lib/components/atoms/Button.svelte";
+import GoogleIcon from "$lib/components/atoms/GoogleIcon.svelte";
 
-  /**
-   * Googleログインボタンコンポーネントのprops
-   */
-  interface GoogleLoginButtonProps {
-    /**
-     * クリック時のハンドラー
-     */
-    onclick: () => void;
-  }
+/**
+ * Googleログインボタンコンポーネントのprops
+ */
+interface GoogleLoginButtonProps {
+	/**
+	 * クリック時のハンドラー
+	 */
+	onclick: () => void;
+}
 
-  let { onclick }: GoogleLoginButtonProps = $props();
+const { onclick }: GoogleLoginButtonProps = $props();
 </script>
 
 <Button type="button" variant="secondary" fullWidth={true} {onclick}>

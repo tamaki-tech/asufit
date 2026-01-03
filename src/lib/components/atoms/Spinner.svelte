@@ -1,31 +1,31 @@
 <script lang="ts">
-  /**
-   * スピナーコンポーネントのprops
-   */
-  interface SpinnerProps {
-    /**
-     * スピナーのサイズ（CSSのw-/h-クラス）
-     */
-    size?: "sm" | "md" | "lg";
-  }
+/**
+ * スピナーコンポーネントのprops
+ */
+interface SpinnerProps {
+	/**
+	 * スピナーのサイズ（CSSのw-/h-クラス）
+	 */
+	size?: "sm" | "md" | "lg";
+}
 
-  let { size = "md" }: SpinnerProps = $props();
+const { size = "md" }: SpinnerProps = $props();
 
-  /**
-   * サイズに応じたCSSクラス
-   */
-  const sizeClasses = $derived(() => {
-    switch (size) {
-      case "sm":
-        return "h-4 w-4";
-      case "md":
-        return "h-5 w-5";
-      case "lg":
-        return "h-8 w-8";
-      default:
-        return "h-5 w-5";
-    }
-  });
+/**
+ * サイズに応じたCSSクラス
+ */
+const sizeClasses = $derived(() => {
+	switch (size) {
+		case "sm":
+			return "h-4 w-4";
+		case "md":
+			return "h-5 w-5";
+		case "lg":
+			return "h-8 w-8";
+		default:
+			return "h-5 w-5";
+	}
+});
 </script>
 
 <svg
