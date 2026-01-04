@@ -135,6 +135,10 @@ export interface TrainingSession {
 	 */
 	isStarted: boolean;
 	/**
+	 * トレーニング完了済みかどうか
+	 */
+	isCompleted: boolean;
+	/**
 	 * トレーニング記録のリスト
 	 */
 	records: ExerciseRecord[];

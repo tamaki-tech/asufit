@@ -5,6 +5,8 @@
   import AdditionalExerciseList from "$lib/components/organisms/AdditionalExerciseList.svelte";
   import RecommendedMenuChecklist from "$lib/components/organisms/RecommendedMenuChecklist.svelte";
   import StartTrainingModal from "$lib/components/organisms/StartTrainingModal.svelte";
+  import TrainingCompletionModal from "$lib/components/organisms/TrainingCompletionModal.svelte";
+  import ExerciseRecordList from "$lib/components/organisms/ExerciseRecordList.svelte";
   import {
     createMockTrainingSession,
     EXERCISE_TYPES,
@@ -16,12 +18,10 @@
     RecommendedMenuItem,
     TrainingSession,
   } from "$lib/types/exercise";
-  import type { PageData } from "./$types";
-
-  const { data }: { data: PageData } = $props();
 
   let currentDate = $state(new Date());
   let isModalOpen = $state(false);
+  let isCompletionModalOpen = $state(false);
   let isAdditionalFormVisible = $state(false);
   const sessionsByDate = $state<Map<string, TrainingSession>>(new Map());
   let trainingSession = $state<TrainingSession>(
@@ -38,6 +38,7 @@
     }
     trainingSession = sessionsByDate.get(dateKey)!;
     isAdditionalFormVisible = false;
+    isCompletionModalOpen = false;
   });
 
   /**
@@ -181,6 +182,14 @@
       ...additionalMenu.filter((m) => m.isCompleted),
     ];
 
+    // 記録が0件の場合は確認
+    if (completedItems.length === 0) {
+      const confirmed = confirm(
+        "記録がありませんが、トレーニングを完了してもよろしいですか？"
+      );
+      if (!confirmed) return;
+    }
+
     const records: ExerciseRecord[] = completedItems.map((item) => ({
       id: crypto.randomUUID(),
       exerciseType: item.exerciseType,
@@ -190,6 +199,7 @@
 
     trainingSession.records = records;
     trainingSession.isStarted = false;
+    trainingSession.isCompleted = true;
     trainingSession.isRecommendationGenerated = false;
     trainingSession.recommendedMenu = [];
     trainingSession.recommendationReason = undefined;
@@ -197,6 +207,15 @@
 
     const dateKey = format(currentDate, "yyyy-MM-dd");
     sessionsByDate.set(dateKey, trainingSession);
+
+    isCompletionModalOpen = true;
+  }
+
+  /**
+   * 完了モーダルを閉じる
+   */
+  function handleCloseCompletionModal() {
+    isCompletionModalOpen = false;
   }
 </script>
 
@@ -207,7 +226,20 @@
     onNextDay={handleNextDay}
   />
 
-  {#if !trainingSession.isRecommendationGenerated}
+  {#if trainingSession.isCompleted}
+    <div class="space-y-6">
+      <div class="bg-green-50 rounded-lg p-4 border border-green-200">
+        <div class="flex items-center justify-center space-x-2">
+          <span class="text-2xl">✅</span>
+          <span class="text-lg font-semibold text-green-800"
+            >本日のトレーニングは完了しています</span
+          >
+        </div>
+      </div>
+
+      <ExerciseRecordList records={trainingSession.records} />
+    </div>
+  {:else if !trainingSession.isRecommendationGenerated}
     <div class="flex flex-col items-center justify-center py-12 space-y-6">
       <div class="text-center space-y-4">
         <h2 class="text-2xl font-bold text-gray-900">今日のトレーニング</h2>
@@ -264,4 +296,10 @@
       </div>
     </div>
   {/if}
+
+  <TrainingCompletionModal
+    isOpen={isCompletionModalOpen}
+    completedCount={trainingSession.records.length}
+    onClose={handleCloseCompletionModal}
+  />
 </div>

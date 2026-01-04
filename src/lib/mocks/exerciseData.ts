@@ -114,6 +114,7 @@ export function createMockTrainingSession(date: Date): TrainingSession {
 		id: `session-${date.toISOString().split("T")[0]}`,
 		date,
 		isStarted: false,
+		isCompleted: false,
 		records: [],
 		isRecommendationGenerated: false,
 		recommendedMenu: [],
